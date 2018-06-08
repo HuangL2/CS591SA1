@@ -1,26 +1,22 @@
 let express = require("express");
 let router = express.Router();
 
-// Get
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'HW1' });
+router.route('/:key')
+.get(function(req, res, next) {
+    req.params.key = {
+        'string': req.params.key,
+        'length': req.params.key.length
+    };
+    res.json(req.params.key)
 });
 
-router.get("/*", function (req, res, next) {
+router.route('/')
+.post(function (req, res, next) {
     let obj = {
-        'string': req.url.substring(1),
-        'length': req.url.substring(1).length
-    }
-    res.send(obj);
-})
-
-router.post("/*", function (req, res, next) {
-    let str = req.body[Object.keys(req.body)[0]];
-    let obj = {
-        'string': str,
-        'length': str.length
-    }
-    res.send(obj);
-})
+        'string': req.body.string,
+        'length': req.body.string.length
+    };
+    res.json(obj)
+});
 
 module.exports = router;
