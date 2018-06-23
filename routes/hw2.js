@@ -39,15 +39,16 @@ router.get('/', function (req, res, next) {
     })
 });
 
-router.post('/', function (req, res, next) {
+router.route('/')
+.post(function (req, res, next) {
     str.find(
-        {name: res.body.string},
+        {name: req.body.string},
         {_id: 0},
         function (error, result) {
             if (result.length === 0) {
                 let newStr = new str({
-                    string: req.params.key,
-                    length: req.params.key.length
+                    string: req.body.string,
+                    length: req.body.string.length
                 });
                 newStr.save();
                 res.json(newStr)
@@ -59,7 +60,7 @@ router.post('/', function (req, res, next) {
 
 router.delete('/:key', function (req, res, next) {
     str.findOneAndRemove(
-        {name: res.params.key},
+        {name: req.params.key},
         {},
         function (error, result) {
             if(result)
